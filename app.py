@@ -73,7 +73,7 @@ def register():
         conn = get_db()
         cursor = conn.cursor(dictionary=True)
 
-        # checks username - comment to test feature branch
+        # checks username
         cursor.execute(
             "SELECT * FROM accounts WHERE username = %s",
             (username,),
