@@ -10,7 +10,8 @@ pipeline {
     stages {
         stage('Install Dependencies') {
             steps {
-                sh 'pip install -r requirements.txt'
+                sh "docker build -t my-login-app ."
+                sh "docker run --rm my-login-app pip install -r requirements.txt"
             }
         }
 
