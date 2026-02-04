@@ -9,6 +9,18 @@ pipeline {
 
     stages {
 
+        stage('Build & Package') {
+            steps {
+                sh "echo '1.0.${env.BUILD_NUMBER}' > version.txt"
+                
+                sh "tar -czf login-app-v1.0.${env.BUILD_NUMBER}.tar.gz app.py requirements.txt version.txt init.sql"
+
+                archiveArtifacts artifacts: '*.tar.gz', fingerprint: true
+                
+                echo "Artifact login-app-v1.0.${env.BUILD_NUMBER}.tar.gz created and archived."
+            }
+        }
+
         stage('All branch testing') {
             steps {
                 echo "Scanning ${env.BRANCH_NAME} for bad code..."
@@ -17,10 +29,10 @@ pipeline {
 
         stage('Staging Deployment') {
             // main only
-            when { branch 'main' }
+            when { branch 'master' }
             steps {
-                echo "Branch is main. Deploying to Staging Database..."
-                sh 'docker exec mysql-db mysql -uapp_user -psecretpassword login_db < init.sql'
+                echo "Branch is master. Deploying to Staging Database..."
+                // sh 'docker exec mysql-db mysql -uapp_user -psecretpassword login_db < init.sql'
             }
         }
 

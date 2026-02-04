@@ -14,9 +14,11 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock # For DooD
     networks:
       - jenkins-net
-
+  
   agent1:
-    image: jenkins/inbound-agent:latest-jdk17
+    build:
+      context: .
+      dockerfile: Dockerfile.agent
     container_name: jenkins-agent-1
     privileged: true
     environment:
