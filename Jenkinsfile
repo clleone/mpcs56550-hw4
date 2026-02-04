@@ -8,12 +8,6 @@ pipeline {
     }
 
     stages {
-        stage('Install Dependencies') {
-            steps {
-                sh "docker build -t my-login-app ."
-                sh "docker run --rm my-login-app pip install -r requirements.txt"
-            }
-        }
 
         stage('All branch testing') {
             steps {
