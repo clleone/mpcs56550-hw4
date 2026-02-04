@@ -38,7 +38,7 @@ pipeline {
 
         stage('Feature Lab') {
             // feature only
-            when { expression { env.BRANCH_NAME != 'main' } }
+            when { expression { env.BRANCH_NAME != 'master' } }
             steps {
                 echo "This is a feature branch: ${env.BRANCH_NAME}. Skipping deployment."
                 echo "Running experimental unit tests..."
