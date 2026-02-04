@@ -1,1 +1,7 @@
 .env
+jenkins_agent*
+agent_new*
+agent_final*
+jenkins_home/
+__pycache__/
+*.pyc

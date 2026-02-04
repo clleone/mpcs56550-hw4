@@ -1,0 +1,41 @@
+services:
+  jenkins:
+    image: jenkins/jenkins:lts
+    container_name: jenkins-controller
+    privileged: true
+    user: root
+    ports:
+      - "8080:8080"
+      - "50000:50000"
+    volumes:
+      - ./jenkins_home:/var/jenkins_home
+      - /var/run/docker.sock:/var/run/docker.sock # For DooD
+    networks:
+      - jenkins-net
+
+  agent1:
+    image: jenkins/inbound-agent:latest-jdk17
+    container_name: jenkins-agent-1
+    privileged: true
+    environment:
+      - JENKINS_URL=http://jenkins-controller:8080
+      - JENKINS_SECRET=a865985215129e73d180128c87c9c83e1f658a3d7fb6bf573a575a3bd1263edc
+      - JENKINS_AGENT_NAME=agent-1
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    networks:
+      - jenkins-net
+  
+  ngrok:
+    image: ngrok/ngrok:latest
+    container_name: ngrok-tunnel
+    command:
+      - "http"
+      - "jenkins-controller:8080" # The name of your jenkins service
+    environment:
+      - NGROK_AUTHTOKEN=39BwCjyyXXskIPbU7CXQwlmfePB_3FfC84AxzE7E12fhbuH1m # Get this from your ngrok dashboard
+    networks:
+      - jenkins-net
+
+networks:
+  jenkins-net:
