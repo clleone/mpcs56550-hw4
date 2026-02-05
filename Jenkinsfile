@@ -76,13 +76,17 @@ pipeline {
                 sh 'docker stop flask-app || true'
                 sh 'docker rm flask-app || true'
                 sh """
+                echo "=== Checking workspace contents ==="
+                ls -la
+                
+                echo "=== Running docker with debug ==="
                 docker run --rm \
                 --network 4w_jenkins-net \
                 -v \$(pwd):/app \
                 -w /app \
                 -e APP_URL=http://flask-app:5000 \
                 mcr.microsoft.com/playwright/python:v1.40.0-jammy \
-                bash -c 'pip install -r requirements.txt && playwright install chromium && pytest --html=report.html'
+                bash -c 'pwd && ls -la && pip install -r requirements.txt && playwright install chromium && pytest --html=report.html'
                 """
                 archiveArtifacts artifacts: 'report.html', fingerprint: true
             }
