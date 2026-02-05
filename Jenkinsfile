@@ -26,7 +26,7 @@ pipeline {
                 echo "Artifact login-app-v1.0.${env.BUILD_NUMBER}.tar.gz created and archived."
             }
         }
-        //random comment so I can push
+
         stage('All branch quality analysis with SonarQube') {
             steps {
                 echo "Scanning ${env.BRANCH_NAME} for bad code with SonarQube..."
@@ -55,7 +55,13 @@ pipeline {
             when { branch 'master' }
             steps {
                 echo "Branch is master. Deploying to Staging Database..."
-                // sh 'docker exec mysql-db mysql -uapp_user -psecretpassword login_db < init.sql'
+                script {
+                    echo "Building Staging Database from scratch..."
+                    sh "docker exec mysql-db mysql -u${DB_USER} -p${DB_PASS} < init.sql"
+                    
+                    echo "Verifying Successful Seeding..."
+                    sh "docker exec mysql-db mysql -u${DB_USER} -p${DB_PASS} login_db -e 'SELECT * FROM users;'"
+                }
             }
         }
 
