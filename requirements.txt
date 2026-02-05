@@ -1,6 +1,5 @@
 Flask
 mysql-connector-python
-werkzeug
 pytest
 pytest-cov
 flake8

@@ -6,3 +6,4 @@ jenkins_home/
 __pycache__/
 *.pyc
 notes*
+hashgrounds/
