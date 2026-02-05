@@ -119,7 +119,7 @@ pipeline {
                 --network 4w_jenkins-net \
                 --volumes-from jenkins-agent-1 \
                 -w ${WORKSPACE} \
-                grafana/k6 run performance.js
+                grafana/k6 run performance.js --html=performance.html
                 """
                 archiveArtifacts artifacts: 'performance.html', fingerprint: true
             }
