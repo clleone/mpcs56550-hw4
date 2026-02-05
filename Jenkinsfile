@@ -135,10 +135,11 @@ pipeline {
     }
     post {
         success {
-            slackSend(color: 'good', message: "✅ Success: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
+            // 'slack-token' is the ID of your Secret Text credential containing the URL
+            slackSend(color: 'good', tokenCredentialId: 'slack-token', channel: '#devops', message: "✅ Build Success: ${env.JOB_NAME} #${env.BUILD_NUMBER}")
         }
         failure {
-            slackSend(color: 'danger', message: "🚨 Failure: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]'. Check logs: ${env.BUILD_URL}console")
+            slackSend(color: 'danger', tokenCredentialId: 'slack-token', channel: '#devops', message: "🚨 Build Failed: ${env.JOB_NAME} #${env.BUILD_NUMBER} - ${env.BUILD_URL}console")
         }
     }
 }
