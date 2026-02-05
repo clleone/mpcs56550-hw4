@@ -62,7 +62,7 @@ pipeline {
                     // restart containers
                     sh 'docker stop flask-app || true'
                     sh 'docker rm flask-app || true'
-
+                    
                     echo "Building Staging Database from scratch..."
                     sh "docker exec -i mysql-db mysql -uroot -p${ROOT_PASS} < init.sql"
 
@@ -70,7 +70,20 @@ pipeline {
                     sh "docker exec -i mysql-db mysql -uroot -p${ROOT_PASS} login_db -e 'SELECT * FROM accounts;'"
 
                     echo "Booting up application..."
-                    sh "docker run -d --name flask-app --network 4w_jenkins-net -p 5000:5000 login-app-build"
+                    sh """
+                    docker run -d --name flask-app \
+                    --network 4w_jenkins-net \
+                    -p 5000:5000 \
+                    -e DB_HOST=mysql-db \
+                    -e DB_USER=${DB_USER} \
+                    -e DB_PASS=${DB_PASS} \
+                    -e DB_NAME=login_db \
+                    -e SECRET_KEY=${SECRET_KEY} \
+                    login-app-build
+                    """
+                    
+                    echo "Waiting for Flask app to start..."
+                    sh "sleep 5"
                 }
             }
         }
