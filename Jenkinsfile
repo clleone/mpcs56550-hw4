@@ -26,7 +26,7 @@ pipeline {
                 echo "Artifact login-app-v1.0.${env.BUILD_NUMBER}.tar.gz created and archived."
             }
         }
-
+        //random comment so I can push
         stage('All branch quality analysis with SonarQube') {
             steps {
                 echo "Scanning ${env.BRANCH_NAME} for bad code with SonarQube..."
