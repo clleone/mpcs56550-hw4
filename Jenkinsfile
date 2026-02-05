@@ -8,6 +8,11 @@ pipeline {
     }
 
     stages {
+        stage('Install Dependencies') {
+            steps {
+                sh 'pip install -r requirements.txt' 
+            }
+        }
 
         stage('Build & Package') {
             steps {
@@ -21,9 +26,26 @@ pipeline {
             }
         }
 
-        stage('All branch testing') {
+        stage('All branch quality analysis with SonarQube') {
             steps {
-                echo "Scanning ${env.BRANCH_NAME} for bad code..."
+                echo "Scanning ${env.BRANCH_NAME} for bad code with SonarQube..."
+                 script {
+                    def scannerHome = tool 'SonarScanner'
+                    withSonarQubeEnv('SonarQube') {
+                        sh "${scannerHome}/bin/sonar-scanner " +
+                           "-Dsonar.projectKey=flask-login-app " +
+                           "-Dsonar.sources=. " +
+                           "-Dsonar.python.version=3"
+                    }
+                }
+            }
+        }
+
+        stage("Quality Gate") {
+            steps {
+                timeout(time: 1, unit: 'MINUTES') {
+                    waitForQualityGate abortPipeline: true
+                }
             }
         }
 
