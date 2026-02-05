@@ -2,7 +2,7 @@ pipeline {
     agent { label 'testing' }
     
     environment {
-        DB_PASS = credentials('DB_PASSWORD') 
+        DB_PASSWORD = credentials('DB_PASSWORD') 
         DB_USER = 'acctuser'
         SECRET_KEY = credentials('SECRET_KEY')
         ROOT_PASS = credentials('MYSQL_ROOT_PASS')
