@@ -72,7 +72,7 @@ pipeline {
         stage('End-to-End Testing') {
             when { branch 'master' }
             steps {
-                // restart containers
+                // restart containers -- push
                 sh 'docker stop flask-app || true'
                 sh 'docker rm flask-app || true'
                 sh """
