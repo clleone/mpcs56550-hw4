@@ -10,8 +10,8 @@ def test_user_journey_login(page: Page):
     page.goto(f"{BASE_URL}/login")
 
     # fill form
-    page.fill("#username", "test_admin")
-    page.fill("#password", "secretpassword")
+    page.fill("#username", "libby")
+    page.fill("#password", "journalist1")
 
     # submit form
     page.click("button[type='submit']")
