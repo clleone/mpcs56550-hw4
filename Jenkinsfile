@@ -11,7 +11,7 @@ pipeline {
     stages {
         stage('Install Dependencies') {
             steps {
-                sh "docker build -t login-app-build ."
+                sh "docker build --no-cache -t login-app-build ."
                 sh "docker run --rm login-app-build pip install -r requirements.txt"
             }
         }
