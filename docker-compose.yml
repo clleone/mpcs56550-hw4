@@ -48,6 +48,17 @@ services:
       - "9000:9000"
     networks:
       - jenkins-net
+  
+  mysql-db:
+    image: mysql:8.0
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
 networks:
   jenkins-net:
