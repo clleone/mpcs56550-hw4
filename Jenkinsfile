@@ -142,4 +142,12 @@ pipeline {
             }
         }
     }
+    post {
+        success {
+            slackSend(color: 'good', message: "✅ Success: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
+        }
+        failure {
+            slackSend(color: 'danger', message: "🚨 Failure: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]'. Check logs: ${env.BUILD_URL}console")
+        }
+    }
 }
