@@ -33,6 +33,7 @@ pipeline {
             steps {
                 echo "Scanning ${env.BRANCH_NAME} for bad code with SonarQube..."
                  script {
+                    sh "echo 'Token length:' && echo ${env.SONAR_TOKEN} | wc -c"
                     def scannerHome = tool 'SonarScanner'
                     withSonarQubeEnv('SonarQube') {
                         sh "${scannerHome}/bin/sonar-scanner " +
