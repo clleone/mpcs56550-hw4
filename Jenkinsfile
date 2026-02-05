@@ -119,17 +119,8 @@ pipeline {
                 --network 4w_jenkins-net \
                 --volumes-from jenkins-agent-1 \
                 -w ${WORKSPACE} \
-                grafana/k6 run performance.js --out json=performance.json
+                grafana/k6 run performance.js
                 """
-
-                sh """
-                docker run --rm \
-                --volumes-from jenkins-agent-1 \
-                -w ${WORKSPACE} \
-                ghcr.io/benc-uk/k6-reporter:latest performance.json performance.html
-                """
-        
-                archiveArtifacts artifacts: 'performance.html', fingerprint: true
             }
         }
 
