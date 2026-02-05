@@ -117,7 +117,7 @@ pipeline {
                 sh """
                 docker run --rm \
                 --network 4w_jenkins-net \
-                -v \$(pwd):/app \
+                -v ${WORKSPACE}:/app \
                 -w /app \
                 grafana/k6 run performance_test.js
                 """
