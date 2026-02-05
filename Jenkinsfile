@@ -75,11 +75,11 @@ pipeline {
                 sh """
                 docker run --rm \
                 --network 4w_jenkins-net \
-                -v \$(pwd):/tests \
-                -w /tests \
+                -v \$(pwd):/app \
+                -w /app \
                 -e APP_URL=http://flask-app:5000 \
                 mcr.microsoft.com/playwright/python:v1.40.0-jammy \
-                bash -c 'ls -la && pip install -r requirements.txt && playwright install chromium && pytest --html=report.html'
+                bash -c 'pip install -r requirements.txt && playwright install chromium && pytest --html=report.html'
                 """
                 archiveArtifacts artifacts: 'report.html', fingerprint: true
             }
