@@ -1,5 +1,11 @@
 DROP DATABASE IF EXISTS login_db;
 CREATE DATABASE login_db;
+
+
+CREATE USER IF NOT EXISTS 'acctuser'@'%' IDENTIFIED BY 'acctpass';
+GRANT ALL PRIVILEGES ON login_db.* TO 'acctuser'@'%';
+FLUSH PRIVILEGES;
+
 USE login_db;
 
 CREATE TABLE IF NOT EXISTS accounts (
