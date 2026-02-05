@@ -6,6 +6,7 @@ pipeline {
         DB_USER = 'acctuser'
         SECRET_KEY = credentials('SECRET_KEY')
         ROOT_PASS = credentials('MYSQL_ROOT_PASS')
+        SONAR_TOKEN = credentials('SONAR_TOKEN')
     }
 
     stages {
@@ -35,9 +36,10 @@ pipeline {
                     def scannerHome = tool 'SonarScanner'
                     withSonarQubeEnv('SonarQube') {
                         sh "${scannerHome}/bin/sonar-scanner " +
-                           "-Dsonar.projectKey=flask-login-app " +
-                           "-Dsonar.sources=. " +
-                           "-Dsonar.python.version=3"
+                        "-Dsonar.projectKey=flask-login-app " +
+                        "-Dsonar.sources=. " +
+                        "-Dsonar.python.version=3 " +
+                        "-Dsonar.token=${env.SONAR_TOKEN}"
                     }
                 }
             }
