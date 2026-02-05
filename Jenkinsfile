@@ -79,7 +79,7 @@ pipeline {
                 -w /tests \
                 -e APP_URL=http://flask-app:5000 \
                 mcr.microsoft.com/playwright/python:v1.40.0-jammy \
-                sh -c 'pip install -r requirements.txt && playwright install chromium && pytest --html=report.html'
+                bash -c 'ls -la && pip install -r requirements.txt && playwright install chromium && pytest --html=report.html'
                 """
                 archiveArtifacts artifacts: 'report.html', fingerprint: true
             }
