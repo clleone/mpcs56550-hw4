@@ -76,17 +76,20 @@ pipeline {
                 sh 'docker stop flask-app || true'
                 sh 'docker rm flask-app || true'
                 sh """
-                echo "=== Checking workspace contents ==="
+                echo "=== WORKSPACE variable ==="
+                echo ${WORKSPACE}
+                
+                echo "=== Current directory ==="
+                pwd
+                
+                echo "=== Files in workspace ==="
+                ls -la ${WORKSPACE}
+                
+                echo "=== Files in current directory ==="
                 ls -la
                 
-                echo "=== Running docker with workspace path ==="
-                docker run --rm \
-                --network 4w_jenkins-net \
-                -v ${WORKSPACE}:/app \
-                -w /app \
-                -e APP_URL=http://flask-app:5000 \
-                mcr.microsoft.com/playwright/python:v1.40.0-jammy \
-                bash -c 'pwd && ls -la && pip install -r requirements.txt && playwright install chromium && pytest --html=report.html'
+                echo "=== Find requirements.txt ==="
+                find ${WORKSPACE} -name requirements.txt
                 """
                 archiveArtifacts artifacts: 'report.html', fingerprint: true
             }
