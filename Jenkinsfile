@@ -61,7 +61,7 @@ pipeline {
                     sh "docker exec -i mysql-db mysql -uroot -p${ROOT_PASS} < init.sql"
 
                     echo "Verifying Successful Seeding..."
-                    sh "docker exec -i mysql-db mysql -uroot -p${ROOT_PASS} login_db -e 'SELECT * FROM users;'"
+                    sh "docker exec -i mysql-db mysql -uroot -p${ROOT_PASS} login_db -e 'SELECT * FROM accounts;'"
                 }
             }
         }
