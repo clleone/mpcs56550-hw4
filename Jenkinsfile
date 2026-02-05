@@ -58,10 +58,10 @@ pipeline {
                 echo "Branch is master. Deploying to Staging Database..."
                 script {
                     echo "Building Staging Database from scratch..."
-                    sh "docker exec mysql-db mysql -uroot -p${ROOT_PASS} < init.sql"
+                    sh "docker exec -i mysql-db mysql -uroot -p${ROOT_PASS} < init.sql"
 
                     echo "Verifying Successful Seeding..."
-                    sh "docker exec mysql-db mysql -uroot -p${ROOT_PASS} login_db -e 'SELECT * FROM users;'"
+                    sh "docker exec -i mysql-db mysql -uroot -p${ROOT_PASS} login_db -e 'SELECT * FROM users;'"
                 }
             }
         }
