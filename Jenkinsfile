@@ -112,7 +112,7 @@ pipeline {
         }
 
         stage('Performance Testing') {
-            when { branch 'main' }
+            when { branch 'master' }
             steps {
                 sh """
                 docker run --rm \
