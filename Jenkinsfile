@@ -111,6 +111,19 @@ pipeline {
             }
         }
 
+        stage('Performance Testing') {
+            when { branch 'main' }
+            steps {
+                sh """
+                docker run --rm \
+                --network 4w_jenkins-net \
+                -v \$(pwd):/app \
+                -w /app \
+                grafana/k6 run performance_test.js
+                """
+            }
+        }
+
         stage('Feature Lab') {
             // feature only
             when { expression { env.BRANCH_NAME != 'master' } }
