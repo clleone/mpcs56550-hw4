@@ -74,14 +74,13 @@ pipeline {
             steps {
                 sh """
                 docker run --rm \
-                --network jenkins-net \
+                --network 4w_jenkins-net \
                 -v \$(pwd):/app \
                 -w /app \
                 -e APP_URL=http://flask-app:5000 \
                 ://mcr.microsoft.com \
                 /bin/bash -c 'pip install -r requirements.txt && playwright install chromium && pytest --html=report.html'
                 """
-                // Q7 Deliverable: Archive the HTML report
                 archiveArtifacts artifacts: 'report.html', fingerprint: true
             }
         }
