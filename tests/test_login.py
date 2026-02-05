@@ -17,5 +17,5 @@ def test_user_journey_login(page: Page):
     page.click("button[type='submit']")
 
     # confirm we've been logged in
-    expect(page.get_by_text("Welcome")).to_be_visible()
+    expect(page.get_by_text("Welcome,")).to_be_visible()
     print("User journey successful: Logged in and verified welcome message.")
