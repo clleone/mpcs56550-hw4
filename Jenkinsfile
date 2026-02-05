@@ -81,9 +81,8 @@ pipeline {
                 ://mcr.microsoft.com \
                 /bin/bash -c 'pip install -r requirements.txt && playwright install chromium && pytest --html=report.html'
                 """
-
+                // Q7 Deliverable: Archive the HTML report
                 archiveArtifacts artifacts: 'report.html', fingerprint: true
-                echo "E2E artifact created and archived."
             }
         }
 
