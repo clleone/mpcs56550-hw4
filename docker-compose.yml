@@ -49,16 +49,18 @@ services:
     networks:
       - jenkins-net
   
-  mysql-db:
+  db:
     image: mysql:8.0
+    container_name: mysql-db
+    environment:
+      - MYSQL_DATABASE=login_db
     volumes:
       - mysql_data:/var/lib/mysql
-      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
-    healthcheck:
-      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
+    networks:
+      - jenkins-net
+
+volumes:
+  mysql_data:
 
 networks:
   jenkins-net:
