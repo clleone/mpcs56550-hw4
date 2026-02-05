@@ -121,6 +121,7 @@ pipeline {
                 -w ${WORKSPACE} \
                 grafana/k6 run performance.js
                 """
+                archiveArtifacts artifacts: 'performance.html', fingerprint: true
             }
         }
 
