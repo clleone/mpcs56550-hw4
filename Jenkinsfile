@@ -79,10 +79,10 @@ pipeline {
                 echo "=== Checking workspace contents ==="
                 ls -la
                 
-                echo "=== Running docker with debug ==="
+                echo "=== Running docker with workspace path ==="
                 docker run --rm \
                 --network 4w_jenkins-net \
-                -v \$(pwd):/app \
+                -v ${WORKSPACE}:/app \
                 -w /app \
                 -e APP_URL=http://flask-app:5000 \
                 mcr.microsoft.com/playwright/python:v1.40.0-jammy \
