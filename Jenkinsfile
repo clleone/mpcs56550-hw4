@@ -59,6 +59,10 @@ pipeline {
             steps {
                 echo "Branch is master. Deploying to Staging Database..."
                 script {
+                    // restart containers
+                    sh 'docker stop flask-app || true'
+                    sh 'docker rm flask-app || true'
+
                     echo "Building Staging Database from scratch..."
                     sh "docker exec -i mysql-db mysql -uroot -p${ROOT_PASS} < init.sql"
 
@@ -74,9 +78,6 @@ pipeline {
         stage('End-to-End Testing') {
             when { branch 'master' }
             steps {
-                // restart containers
-                sh 'docker stop flask-app || true'
-                sh 'docker rm flask-app || true'
                 sh """
                 docker run --rm \
                 --network 4w_jenkins-net \
