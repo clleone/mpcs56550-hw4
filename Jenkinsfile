@@ -8,7 +8,7 @@ pipeline {
         ROOT_PASS = credentials('MYSQL_ROOT_PASS')
         SONAR_TOKEN = credentials('SONAR_TOKEN')
     }
-
+    // to push
     stages {
         stage('Install Dependencies') {
             steps {
