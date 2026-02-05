@@ -119,7 +119,7 @@ pipeline {
                 --network 4w_jenkins-net \
                 -v ${WORKSPACE}:/app \
                 -w /app \
-                grafana/k6 run performance_test.js
+                grafana/k6 run performance.js
                 """
             }
         }
