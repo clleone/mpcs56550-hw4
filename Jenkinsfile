@@ -71,7 +71,7 @@ pipeline {
 
                     // Debug: Check environment variables
                     sh "echo 'DB_USER is: ${DB_USER}'"
-                    sh "echo 'DB_PASS length:' && echo '${DB_PASS}' | wc -c"
+                    sh "echo 'DB_PASS length:' && echo '${DB_PASSWORD}' | wc -c"
                     
                     echo "Booting up application..."
                     sh """
@@ -80,7 +80,7 @@ pipeline {
                     -p 5000:5000 \
                     -e DB_HOST=mysql-db \
                     -e DB_USER=${DB_USER} \
-                    -e DB_PASS='${DB_PASS}' \
+                    -e DB_PASS='${DB_PASSWORD}' \
                     -e DB_NAME=login_db \
                     -e SECRET_KEY='${SECRET_KEY}' \
                     login-app-build
