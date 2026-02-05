@@ -1,7 +1,4 @@
 Flask
 mysql-connector-python
-pytest
-pytest-cov
-flake8
-black
-coverage
+pytest-playwright
+pytest-html

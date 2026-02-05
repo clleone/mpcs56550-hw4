@@ -62,7 +62,28 @@ pipeline {
 
                     echo "Verifying Successful Seeding..."
                     sh "docker exec -i mysql-db mysql -uroot -p${ROOT_PASS} login_db -e 'SELECT * FROM accounts;'"
+
+                    echo "Booting up application..."
+                    sh "docker run -d --name flask-app --network jenkins-net -p 5000:5000 login-app-build"
                 }
+            }
+        }
+
+        stage('End-to-End Testing') {
+            when { branch 'master' }
+            steps {
+                sh """
+                docker run --rm \
+                --network jenkins-net \
+                -v \$(pwd):/app \
+                -w /app \
+                -e APP_URL=http://flask-app:5000 \
+                ://mcr.microsoft.com \
+                /bin/bash -c 'pip install -r requirements.txt && playwright install chromium && pytest --html=report.html'
+                """
+
+                archiveArtifacts artifacts: 'report.html', fingerprint: true
+                echo "E2E artifact created and archived."
             }
         }
 
