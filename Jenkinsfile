@@ -80,7 +80,7 @@ pipeline {
                     -p 5000:5000 \
                     -e DB_HOST=mysql-db \
                     -e DB_USER=${DB_USER} \
-                    -e DB_PASS='${DB_PASSWORD}' \
+                    -e DB_PASSWORD='${DB_PASSWORD}' \
                     -e DB_NAME=login_db \
                     -e SECRET_KEY='${SECRET_KEY}' \
                     login-app-build
