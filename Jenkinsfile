@@ -64,7 +64,7 @@ pipeline {
                     sh "docker exec -i mysql-db mysql -uroot -p${ROOT_PASS} login_db -e 'SELECT * FROM accounts;'"
 
                     echo "Booting up application..."
-                    sh "docker run -d --name flask-app --network jenkins-net -p 5000:5000 login-app-build"
+                    sh "docker run -d --name flask-app --network 4w_jenkins-net -p 5000:5000 login-app-build"
                 }
             }
         }
