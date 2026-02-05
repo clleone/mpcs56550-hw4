@@ -11,7 +11,7 @@ services:
       - "50000:50000"
     volumes:
       - ./jenkins_home:/var/jenkins_home
-      - /var/run/docker.sock:/var/run/docker.sock # For DooD
+      - /var/run/docker.sock:/var/run/docker.sock
     networks:
       - jenkins-net
   
@@ -27,6 +27,7 @@ services:
       - JENKINS_AGENT_NAME=agent-1
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
+      - jenkins_agent_workspace:/home/jenkins/agent  # Add this line
     networks:
       - jenkins-net
   
@@ -62,6 +63,7 @@ services:
 
 volumes:
   mysql_data:
+  jenkins_agent_workspace:
 
 networks:
   jenkins-net:

@@ -78,22 +78,13 @@ pipeline {
                 sh 'docker stop flask-app || true'
                 sh 'docker rm flask-app || true'
                 sh """
-                echo "=== Listing workspace files with timestamps ==="
-                ls -lat ${WORKSPACE}
-                
-                echo "=== Checking if requirements.txt exists ==="
-                test -f ${WORKSPACE}/requirements.txt && echo "File exists!" || echo "File missing!"
-                
-                echo "=== Touching a test file ==="
-                touch ${WORKSPACE}/test-file-timestamp.txt
-                
-                echo "=== Running docker mount ==="
                 docker run --rm \
                 --network 4w_jenkins-net \
-                -v ${WORKSPACE}:/app:ro \
-                -w /app \
+                --volumes-from jenkins-agent-1 \
+                -w ${WORKSPACE} \
+                -e APP_URL=http://flask-app:5000 \
                 mcr.microsoft.com/playwright/python:v1.40.0-jammy \
-                bash -c 'ls -lat /app && test -f /app/test-file-timestamp.txt && echo "Test file visible in container!" || echo "Test file NOT visible!"'
+                bash -c 'ls -lat && pip install -r requirements.txt && playwright install chromium && pytest --html=report.html'
                 """
                 archiveArtifacts artifacts: 'report.html', fingerprint: true
             }
