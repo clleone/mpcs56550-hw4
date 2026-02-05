@@ -78,7 +78,7 @@ pipeline {
                 -v \$(pwd):/app \
                 -w /app \
                 -e APP_URL=http://flask-app:5000 \
-                ://mcr.microsoft.com \
+                login-app-build \
                 /bin/bash -c 'pip install -r requirements.txt && playwright install chromium && pytest --html=report.html'
                 """
                 archiveArtifacts artifacts: 'report.html', fingerprint: true
