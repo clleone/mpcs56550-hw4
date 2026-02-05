@@ -117,8 +117,8 @@ pipeline {
                 sh """
                 docker run --rm \
                 --network 4w_jenkins-net \
-                -v ${WORKSPACE}:/app \
-                -w /app \
+                --volumes-from jenkins-agent-1 \
+                -w ${WORKSPACE} \
                 grafana/k6 run performance.js
                 """
             }
